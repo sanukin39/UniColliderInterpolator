@@ -10,13 +10,28 @@ The Unity physics does not allowed non convex(concave) mesh collider. We can esc
 Left : Mesh collider with default convex option.
 Right : Interpolated mesh collider using UniColliderInterpolator.
 ![Demo1](https://github.com/sanukin39/UniColliderInterpolator/blob/master/Demo/useconvex.gif)
-![Demo1](https://github.com/sanukin39/UniColliderInterpolator/blob/master/Demo/interpolated.gif)
+![Demo2](https://github.com/sanukin39/UniColliderInterpolator/blob/master/Demo/interpolated.gif)
 
 
 ## Requirement
 Unity 2018 or higher
 
 ## Usage
+Attach ColliderInterpolator.cs to your 3d model whitch has mesh filter.
+
+![Attach](https://github.com/sanukin39/UniColliderInterpolator/blob/master/Demo/attach.png)
+
+Set collider division length and push Generate button.
+
+![Attach](https://github.com/sanukin39/UniColliderInterpolator/blob/master/Demo/execute.png)
+
+That's it!!
+
+![Demo3](https://github.com/sanukin39/UniColliderInterpolator/blob/master/Demo/generation.gif)
+
+## Notice
+- The plugin detect other object collider when generation. Separete target 3d model from other colliders when generation.
+- The generation doesnt work well when target 3d model has rigidbody. Remove rigidbody components from target model when generation.
 
 ## Install
 use unitypackage at [release](https://github.com/sanukin39/UniColliderInterpolator/releases/) page

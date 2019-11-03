@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UniColliderInterpolator
 {
@@ -13,11 +12,7 @@ namespace UniColliderInterpolator
         public async void Generate()
         {
             var colliderObjectName = $"{ColliderObjectPrefix}{gameObject.name}";
-            var child = transform.Find(colliderObjectName);
-            if (child != null)
-            {
-                DestroyImmediate(child.gameObject);
-            }
+            RemoveOldColliders(colliderObjectName);
 
             var meshCollider = gameObject.AddComponent<MeshCollider>();
             var bounds = meshCollider.bounds;
@@ -40,7 +35,7 @@ namespace UniColliderInterpolator
 
                 hasColliderPosition[i] = true;
             }
-
+            
             var colliderObject = new GameObject(colliderObjectName);
             colliderObject.transform.SetParent(transform);
 
@@ -98,6 +93,39 @@ namespace UniColliderInterpolator
                         }
                     }
 
+                    var c = 0;
+                    var resultX = 0;
+                    var resultY = 0;
+                    var resultZ = 0;
+                    for (var x = 1; x <= xEdgeCount; x++)
+                    {
+                        for (var y = 1; y <= yEdgeCount; y++)
+                        {
+                            for (var z = 1; z <= zEdgeCount; z++)
+                            {
+                                if (!IsValidCubes(hasColliderPosition, i, x, y, z, yDivisionCount, zDivisionCount))
+                                {
+                                    continue;
+                                }
+
+                                var count = x * y * z;
+                                if (count < c)
+                                {
+                                    continue;
+                                }
+
+                                c = count;
+                                resultX = x;
+                                resultY = y;
+                                resultZ = z;
+                            }
+                        }
+                    }
+
+                    xEdgeCount = resultX;
+                    yEdgeCount = resultY;
+                    zEdgeCount = resultZ;
+
                     var margeCount = xEdgeCount * yEdgeCount * zEdgeCount;
                     if (margeCount <= combineCountMax)
                     {
@@ -132,6 +160,37 @@ namespace UniColliderInterpolator
             }
 
             DestroyImmediate(meshCollider);
+        }
+
+        void RemoveOldColliders(string colliderObjectName)
+        {
+            var child = transform.Find(colliderObjectName);
+            if (child != null)
+            {
+                DestroyImmediate(child.gameObject);
+            }
+        }
+
+        bool IsValidCubes(bool[] hasCollider, int index, int xEdgeCount, int yEdgeCount, int zEdgeCount, int yDivisionCount, int zDivisionCount)
+        {
+            for (var x = 0; x < xEdgeCount; x++)
+            {
+                for (var y = 0; y < yEdgeCount; y++)
+                {
+                    for (var z = 0; z < zEdgeCount; z++)
+                    {
+                        var i = index + x * yDivisionCount * zDivisionCount + y * zDivisionCount + z;
+                        if (hasCollider[i])
+                        {
+                            continue;
+                        }
+
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

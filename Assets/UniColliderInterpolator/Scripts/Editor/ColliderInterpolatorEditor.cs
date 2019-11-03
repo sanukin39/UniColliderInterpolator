@@ -3,14 +3,14 @@ using UnityEditor;
 
 namespace UniColliderInterpolator
 {
-    [CustomEditor(typeof(CustomColliderInterpolator))]
-    public class CustomColliderInterpolatorEditor : Editor
+    [CustomEditor(typeof(ColliderInterpolator))]
+    public class ColliderInterpolatorEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
-            var script = (CustomColliderInterpolator) target;
+            var script = (ColliderInterpolator) target;
             if (GUILayout.Button("Generate"))
             {
                 script.Generate();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UniColliderInterpolator
 {
-    public class CustomColliderInterpolator : MonoBehaviour
+    public class ColliderInterpolator : MonoBehaviour
     {
         private const string ColliderObjectPrefix = "UCI_";
         [SerializeField] private float _divisionUnityLength = 0.5f;

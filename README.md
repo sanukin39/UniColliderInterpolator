@@ -41,3 +41,6 @@ use unitypackage at [release](https://github.com/sanukin39/UniColliderInterpolat
 
 ## Author
 [sanukin39](https://github.com/sanukin39)
+
+## Bench
+The great bench model from [Unity Asset Store](https://assetstore.unity.com/packages/3d/props/exterior/street-bench-656).

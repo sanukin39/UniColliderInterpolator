@@ -1,13 +1,14 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UniColliderInterpolator
 {
     public class ColliderInterpolator : MonoBehaviour
     {
         private const string ColliderObjectPrefix = "UCI_";
-        [SerializeField] private float _divisionUnityLength = 0.5f;
+        [SerializeField] private float _divisionUnitLength = 0.5f;
 
         public async void Generate()
         {
@@ -23,7 +24,7 @@ namespace UniColliderInterpolator
 
             Vector3[] gridPositions;
             int xDivisionCount, yDivisionCount, zDivisionCount;
-            BoundsDivider.Divide(bounds, _divisionUnityLength, out gridPositions, out xDivisionCount,
+            BoundsDivider.Divide(bounds, _divisionUnitLength, out gridPositions, out xDivisionCount,
                 out yDivisionCount, out zDivisionCount);
 
             var tmpColliders = new Collider[1];
@@ -32,7 +33,7 @@ namespace UniColliderInterpolator
             for (var i = 0; i < positionCount; i++)
             {
                 var position = gridPositions[i];
-                if (Physics.OverlapSphereNonAlloc(position, _divisionUnityLength / 2f, tmpColliders) == 0)
+                if (Physics.OverlapSphereNonAlloc(position, _divisionUnitLength / 2f, tmpColliders) == 0)
                 {
                     continue;
                 }
@@ -125,9 +126,9 @@ namespace UniColliderInterpolator
                 var collider = colliderObject.AddComponent<BoxCollider>();
                 collider.center = gridPositions[combineIndex] +
                                   new Vector3(xCombineEdgeCount, yCombineEdgeCount, zCombineEdgeCount) *
-                                  _divisionUnityLength / 2f - Vector3.one * _divisionUnityLength / 2f;
+                                  _divisionUnitLength / 2f - Vector3.one * _divisionUnitLength / 2f;
                 collider.size = new Vector3(xCombineEdgeCount, yCombineEdgeCount, zCombineEdgeCount) *
-                                _divisionUnityLength;
+                                _divisionUnitLength;
             }
 
             DestroyImmediate(meshCollider);
